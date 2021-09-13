@@ -15,14 +15,14 @@ app.use(morgan('dev'));
 // ---------- Routes ----------
 
 const userRouter = require('./routes/userRouter')
-const postRouter = require('./routes/postRoutes')
+const projectRouter = require('./routes/projectRoutes')
 const applicationRouter = require('./routes/applicationRouter')
 
 app.get('/', (req:Request, res:Response) => {
   res.send({ status: 'success', message: 'Server running.' });
 });
 app.use('/api/users', userRouter);
-app.use('/api/posts', postRouter)
+app.use('/api/projects', projectRouter)
 app.use('/api/applications', applicationRouter)
 
 //---------- Root Route for frontend ----------
