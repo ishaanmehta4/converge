@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "rootDir": "./",
+      "outDir": "./build-ts",
+      "esModuleInterop": true,
+      "strict": true,
+    },
+    "typedocOptions": {
+      "entryPoints": ["index.ts", "controllers/user.ts","controllers/project.ts", "models/index.ts","interfaces/index.ts"],
+      "out": "docs"
+    }
+  }
