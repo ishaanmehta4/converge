@@ -7,7 +7,7 @@ import { IRequest } from '../interfaces';
  * Creates and returns a new user document with the data given in req.body.new_user_data
  * @param req Express request object
  * @param res Express response object
- * @returns response with data of current user.
+ * @returns response with data of newly created user.
  */
  export async function addUser(req: Request, res: Response) {
     try {
@@ -68,10 +68,10 @@ export async function getUserData(req: Request, res: Response) {
 }
 
 /**
- * 
+ * Updates the user document of the current user with details given in req.body.updated_data
  * @param req Express request object
  * @param res Express response object
- * @returns response with data of current user.
+ * @returns response with updated user document
  */
 export async function updateUser(req: Request, res: Response) {
   try {
@@ -83,10 +83,10 @@ export async function updateUser(req: Request, res: Response) {
 }
 
 /**
- *
+ * Permanently deletes the user document of current user, along with all the projects/applications created by him.
  * @param req Express request object
  * @param res Express response object
- * @returns response with data of current user.
+ * @returns response with confirmation of deletion
  */
 export async function deleteUser(req: Request, res: Response) {
   try {
