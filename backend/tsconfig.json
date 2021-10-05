@@ -8,7 +8,7 @@
       "strict": true,
     },
     "typedocOptions": {
-      "entryPoints": ["index.ts", "controllers/user.ts","controllers/project.ts", "models/index.ts","interfaces/index.ts"],
+      "entryPoints": ["index.ts", "controllers/user.ts","controllers/project.ts", "controllers/application.ts", "models/index.ts","interfaces/index.ts"],
       "out": "docs"
     }
   }
