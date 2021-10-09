@@ -103,3 +103,4 @@ dist
 # TernJS port file
 .tern-port
 Converge_WS.code-workspace
+frontend/homepage/
