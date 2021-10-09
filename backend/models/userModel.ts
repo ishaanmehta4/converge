@@ -34,6 +34,11 @@ var UserSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    user_type: {
+      type: String,
+      enum: ['applicant', 'recruiter'],
+      default: 'applicant'
+    },
     fcm_device_tokens: {
       type: [String],
       default: [],

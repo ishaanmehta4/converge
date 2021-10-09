@@ -37,7 +37,7 @@ export async function getCurrentUserData(req: Request, res: Response) {
   try {
     let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.uid });
     if (!currentUser) {
-      return res.status(401).json({ status: 'error', error: 'user/completeOnboarding' });
+      return res.status(404).json({ status: 'error', error: 'user/notFound' });
     }
 
     return res.json({ status: 'success', data: currentUser });
