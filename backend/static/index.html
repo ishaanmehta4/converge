@@ -49,7 +49,7 @@
           <li><a class="nav-link scrollto" href="#about">What is Converge</a></li>
           <li><a class="nav-link scrollto" href="#for-applicants">For applicants</a></li>
           <li><a class="nav-link scrollto " href="#for-recruiters">For recruiters</a></li>
-          
+
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -68,7 +68,8 @@
       <div class="hero-info" data-aos="zoom-in" data-aos-delay="100">
         <h2>Converge helps you gather the <br><span>perfect team</span><br> for your projects!</h2>
         <div>
-          <a href="#about" class="btn-get-started scrollto">Login</a>
+          <!-- <button onclick="openGooglePopup2" class="btn-get-started scrollto">Login</button> -->
+          <a onclick="openGooglePopup()" class="btn-get-started ">Login</a>
           <a href="#about" class="btn-services scrollto">Know more</a>
         </div>
       </div>
@@ -150,7 +151,8 @@
             <!-- <h4>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h4> -->
             <br>
             <p>
-              Applicants can search for projects based on their current location and skillset, and apply to multiple projects at the same time,
+              Applicants can search for projects based on their current location and skillset, and apply to multiple
+              projects at the same time,
               and check the current status of their applications.
             </p>
             <p>
@@ -187,20 +189,22 @@
             <!-- <h4>Neque saepe temporibus repellat ea ipsum et. Id vel et quia tempora facere reprehenderit.</h4> -->
             <br>
             <p>
-              Project owners can create project posts with relevant descriptions including project title, tentative timeline, skills required by applicants, stipend(if any), location etc.
+              Project owners can create project posts with relevant descriptions including project title, tentative
+              timeline, skills required by applicants, stipend(if any), location etc.
             </p>
             <p>
-              Helping people who are recruiting teammates for group projects, hackathons, or hobby projects, and professional recruiters who are looking to hire potential employees for roles in their organization.
+              Helping people who are recruiting teammates for group projects, hackathons, or hobby projects, and
+              professional recruiters who are looking to hire potential employees for roles in their organization.
             </p>
             <p>
-              <ul>
-                <li>Team leads in group competitions, hackathons etc.</li>
-                <li>Entrepreneurs</li>
-                <li>Student groups</li>
-                <li>Corporate recruiters</li>
-              </ul>
+            <ul>
+              <li>Team leads in group competitions, hackathons etc.</li>
+              <li>Entrepreneurs</li>
+              <li>Student groups</li>
+              <li>Corporate recruiters</li>
+            </ul>
             </p>
-           
+
           </div>
 
         </div>
@@ -218,7 +222,7 @@
             your startups, hackathons, and projects, with ease.</p>
         </header>
 
-   
+
         <div class="row counters" data-aos="fade-up" data-aos-delay="100">
 
           <div class="col-lg-3 col-6 text-center">
@@ -250,7 +254,7 @@
       </div>
     </section><!-- End Why Us Section -->
 
-  
+
 
   </main><!-- End #main -->
 
@@ -285,14 +289,15 @@
               <strong>Email:</strong> ui19co15@iiitsurat.ac.in<br>
             </p>
 
-          
+
           </div>
 
           <div class="col-lg-3 col-md-6 footer-newsletter">
             <h4>Help improve the platform</h4>
-            <p>Coverge is opensource and welcomes contributions is the form of bug reports, feature requests and code contributions.</p>
+            <p>Coverge is opensource and welcomes contributions is the form of bug reports, feature requests and code
+              contributions.</p>
             <a href="#">View on Github</a>
-            
+
           </div>
 
         </div>
@@ -314,6 +319,68 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+<script>
+   function openGooglePopup2() {
+      console.log('jjj')
+    }
+
+</script>
+  <!-- firebase -->
+  <!-- <script > -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+    // const { initializeApp } =require( "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js");
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDoVSqAQVlCXsTzzeG6yS1Hc1eTM_wbCBQ",
+      authDomain: "converge-web.firebaseapp.com",
+      projectId: "converge-web",
+      storageBucket: "converge-web.appspot.com",
+      messagingSenderId: "868220415677",
+      appId: "1:868220415677:web:4db351e96052419eb991d4"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js'
+    // import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+
+   
+    window.openGooglePopup = function() {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          user.getIdToken(true).then((token) => {
+            console.log({ token })
+            // localStorage.setItem('idToken', token);
+            window.location = "http://localhost:3000/?t="+token+""
+          }).catch(function (error) {
+            // Handle error
+            console.log('[HOMEPAGE]: Error occured while getting user\'s ID token.')
+          });
+          // ...
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+        });
+    }
+  </script>
 
 </body>
 

@@ -12,26 +12,27 @@ const path = require('path');
 app.use(cors());
 app.use(morgan('dev'));
 
-// ---------- Routes ----------
+//---------- Initialising services ----------
+require('./config/firebase');
+require('./config/mongoatlas');
 
-const userRouter = require('./routes/userRouter')
-const projectRouter = require('./routes/projectRoutes')
-const applicationRouter = require('./routes/applicationRouter')
+// ---------- Routes for backend services ----------
 
-app.get('/', (req:Request, res:Response) => {
-  res.send({ status: 'success', message: 'Server running.' });
-});
-app.use('/api/users', userRouter);
-app.use('/api/projects', projectRouter)
-app.use('/api/applications', applicationRouter)
+// const userRouter = require('./routes/userRouter')
+// const projectRouter = require('./routes/projectRoutes')
+// const applicationRouter = require('./routes/applicationRouter')
 
-//---------- Root Route for frontend ----------
-// app.get('/', (req:Request, res:Response) => {
-//   res.sendFile(path.join(__dirname, 'build-react', 'index.html'));
-// })
-// app.use(express.static(path.join(__dirname, 'build-react')))
+// app.use('/api/users', userRouter);
+// app.use('/api/projects', projectRouter)
+// app.use('/api/applications', applicationRouter)
 
-// ---------- Middlewares ----------
+// ---------- Routes for serving frontend files ----------
+app.use(express.static('static'))
+
+app.get('/app', (req:Request, res:Response) => {
+  res.send('REACT HOME')
+})
+
 app.listen(process.env.PORT || 5000, () => {
   console.log('> Server listening to port ' + (process.env.PORT || 5000));
 });
