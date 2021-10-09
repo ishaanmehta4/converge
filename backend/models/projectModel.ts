@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var AddressSchema = require('./addressSchema')
 
 var ProjectSchema = new mongoose.Schema(
   {
