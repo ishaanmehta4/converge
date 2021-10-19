@@ -2,9 +2,7 @@ import { Request } from 'express';
 import { Document, Schema } from 'mongoose';
 
 export interface IRequest extends Request {
-  user: {
-    uid: string;
-  };
+  user: any
 }
 
 export interface IUser extends Document {

@@ -5,15 +5,15 @@ const express = require('express');
 import {Request, Response} from 'express';
 
 const app = express();
-
+const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan');
 const path = require('path');
 
-
 // ---------- Middlewares ----------
 app.use(cors());
 app.use(morgan('dev'));
+app.use(bodyParser.json())
 
 //---------- Initialising services ----------
 require('./config/firebase');

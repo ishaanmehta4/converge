@@ -1,0 +1,34 @@
+.complete-signup-page__form__wrapper {
+  height: 100%;
+  display: grid;
+  // grid-template-columns: 3fr 2fr;
+  grid-template-columns:  4fr 2fr;
+  grid-template-rows: 100%;
+  & > div {
+    border: solid 1px rgba(0, 0, 0, 1);
+  }
+
+  .__roles__wrapper {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    // margin: 12px;
+    & > div {
+      display: grid;
+      margin: 12px 0;
+      place-items: center;
+      padding: 8px;
+      border-radius: 8px;
+      // border: solid;
+      border: solid 1px rgba(0, 0, 0, 0.4);
+      width: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &.--active {
+          border-color: var(--accent);
+          color: var(--accent);
+      }
+    }
+  }
+}
