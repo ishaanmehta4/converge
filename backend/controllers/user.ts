@@ -11,14 +11,22 @@ import { IRequest } from '../interfaces';
  */
  export async function addUser(req: Request, res: Response) {
     try {
-        const { uid } = req.body;
-        let {new_user_data} = req.body;
-
-        let tempUser = await User.findOne({ firebase_uid: uid });
+      // console.log(req.body)
+      // return res.json({ status: 'error', error: 'User already exists with current firebase UID.' });
+        let {username, phone_number, skills, user_type} = req.body.new_user_data;
+        let {name: display_name, email, picture: display_picture, user_id: firebase_uid} = (<IRequest>req).user
+        
+        let tempUser = await User.findOne({ firebase_uid });
         if (tempUser) return res.json({ status: 'error', error: 'User already exists with current firebase UID.' });
-    
-        new_user_data.firebase_uid = uid;
-        let newUser = new User(new_user_data);
+        
+        tempUser = await User.findOne({ username });
+        if (tempUser) return res.json({ status: 'error', error: 'Username is not availabele' });
+        
+        tempUser = await User.findOne({ phone_number });
+        if (tempUser) return res.json({ status: 'error', error: 'Another account exists with the same phone number.' });
+        
+
+        let newUser = new User({display_name, email, display_picture, firebase_uid, username, phone_number, skills, user_type});
         await newUser.save();
         res.json({ status: 'success', data: newUser });
     } catch (error) {
