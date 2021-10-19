@@ -18,8 +18,18 @@ const errorResponse = (res: Response, err: any, code: number = 500) => {
  */
 export async function addProject(req: Request, res: Response) {
   try {
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.uid });
+    // Get the current user
+    if (!currentUser) {
+      errorResponse(res, new Error('User not found'), 404);
+      return;
+    }
+    // Get the _id of the current user
+    const userId = currentUser._id;
     // Get the project details from the request body
     const newProjectData = req.body.project;
+    // Add author to the project
+    newProjectData.author = userId;
     // Create a new project document with the given data
     const newProject = new Project(newProjectData);
     // Save the project document
@@ -60,8 +70,14 @@ export async function getProjectData(req: Request, res: Response) {
  */
 export async function getUserProjects(req: Request, res: Response) {
   try {
-    // Get the user id from the request params
-    const userId = req.params.user_id;
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.uid });
+    // Get the current user
+    if (!currentUser) {
+      errorResponse(res, new Error('User not found'), 404);
+      return;
+    }
+    // Get the _id of the current user
+    const userId = currentUser._id;
     // Find the user document with the given user id
     const user = await User.findById(userId);
     // If the user document is not found, return the error response
