@@ -90,14 +90,14 @@ function UserProfile() {
                 <div className="__name">{userData.display_name}</div>
                 <div className="__type">{userData.user_type}</div>
             </div>
-            <div>
+            {userData.user_type === 'applicant' && <div>
                 <h3>Skills added</h3>
                 <Stack direction="column" spacing={1}>
                     {
                         userData.skills.map(skill => <div className="__skill-chip" key={skill}>{skill.toUpperCase()}</div>)
                     }
                 </Stack>
-            </div>
+            </div>}
             <div>
                 <h3>Contact information</h3>
                 <div className="__username"><i className="lni lni-user"></i> @{userData.username}</div>
@@ -142,7 +142,7 @@ function UserProfile() {
                             })
                         }}
                     />
-                    <TextField
+                    {userData.user_type === 'applicant' && <TextField
                         margin="dense"
                         label="Skills"
                         helperText="Enter skills separated by commas"
@@ -157,7 +157,7 @@ function UserProfile() {
                                 skills: e.target.value.split(',').map(skill => skill.trim().toLowerCase()).filter(Boolean)
                             })
                         }}
-                    />
+                    />}
                     <br />
                     <br />
                     <br />

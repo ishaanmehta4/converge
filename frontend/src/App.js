@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 import './App.css';
+
+import AppBar from './components/appBar/AppBar';
 import HomePage from './pages/home/Home';
 import CompleteSignupPage from './pages/completeSignup/CompleteSignup';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -36,7 +38,7 @@ function App() {
     <Router>
       <div className="App">
       <div id="app-nav-container">
-        <h1>{'<navbar>'}</h1>
+        <h1><AppBar /></h1>
         </div>
 
         <div id="app-page-container">
