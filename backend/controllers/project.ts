@@ -18,24 +18,23 @@ const errorResponse = (res: Response, err: any, code: number = 500) => {
  */
 export async function addProject(req: Request, res: Response) {
   try {
-    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.uid });
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.user_id });
     // Get the current user
     if (!currentUser) {
       errorResponse(res, new Error('User not found'), 404);
       return;
     }
-    // Get the _id of the current user
-    const userId = currentUser._id;
+
     // Get the project details from the request body
-    const newProjectData = req.body.project;
+    const newProjectData = req.body.new_project_data;
     // Add author to the project
-    newProjectData.author = userId;
+    newProjectData.author = currentUser._id;
     // Create a new project document with the given data
     const newProject = new Project(newProjectData);
     // Save the project document
     await newProject.save();
     // Return the response with the newly created project data
-    res.status(200).json({ project: newProject });
+    res.status(200).json({ status: 'success', data: newProject });
   } catch (error) {
     // Return the error if there is an error
     errorResponse(res, error);
@@ -55,6 +54,10 @@ export async function getProjectData(req: Request, res: Response) {
     // Find the project document with the given project id
     const project = await Project.findById(projectId);
     // Return the response with the project data
+    if (!project) {
+      return res.status(404).json({ status: 'error', error: 'Project not found.' });
+    }
+
     res.status(200).json({ project });
   } catch (error) {
     // Return the error response
@@ -70,7 +73,7 @@ export async function getProjectData(req: Request, res: Response) {
  */
 export async function getUserProjects(req: Request, res: Response) {
   try {
-    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.uid });
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.user_id });
     // Get the current user
     if (!currentUser) {
       errorResponse(res, new Error('User not found'), 404);
@@ -78,16 +81,11 @@ export async function getUserProjects(req: Request, res: Response) {
     }
     // Get the _id of the current user
     const userId = currentUser._id;
-    // Find the user document with the given user id
-    const user = await User.findById(userId);
-    // If the user document is not found, return the error response
-    if (!user) {
-      errorResponse(res, new Error('User not found'));
-    }
+
     // Get all the projects where user is an author
-    const projects = await Project.find({ author: user._id });
+    const projects = await Project.find({ author: userId });
     // Return the response with the projects data
-    res.status(200).json({ projects });
+    res.status(200).json({ status: 'success', data: projects });
   } catch (error) {
     // Return the error response
     errorResponse(res, error);
@@ -111,16 +109,16 @@ export async function updateProject(req: Request, res: Response) {
       errorResponse(res, new Error('Project not found'));
     }
     // Update the project document with the given data
-    project.author = updatedProjectData.author;
-    project.title = updatedProjectData.title;
-    project.description = updatedProjectData.description;
-    project.address = updatedProjectData.address;
-    project.tags = updatedProjectData.tags;
-    project.skills_required = updatedProjectData.skills_required;
-    project.project_status = updatedProjectData.project_status;
+    if (updatedProjectData.title) project.title = updatedProjectData.title;
+    if (updatedProjectData.description) project.description = updatedProjectData.description;
+    if (updatedProjectData.address) project.address = updatedProjectData.address;
+    if (updatedProjectData.tags) project.tags = updatedProjectData.tags;
+    if (updatedProjectData.skills_required) project.skills_required = updatedProjectData.skills_required;
+    if (updatedProjectData.project_status) project.project_status = updatedProjectData.project_status;
 
     // Save the project document
     await project.save();
+    res.json({ status: 'success', data: project });
   } catch (error) {
     // Return the error response
     errorResponse(res, error);
@@ -141,7 +139,8 @@ export async function deleteProject(req: Request, res: Response) {
     await Project.findByIdAndDelete(projectId);
     // Return the response with confirmation of deletion
     res.status(200).json({
-      message: 'Project deleted successfully',
+      status: 'success',
+      message: 'Project deleted successfully.',
     });
   } catch (error) {
     // Return the error response
