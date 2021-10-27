@@ -37,7 +37,7 @@ function UserProfile() {
     useEffect(() => {
         let getData = async () => {
             let response = await getCurrentUserData()
-            setUserData(response)
+            setUserData(userData => ({ ...userData, ...response }))
         }
         getData()
     }, [])
@@ -80,7 +80,7 @@ function UserProfile() {
     }
 
     return (
-        <div className="user-profile__wrapper" style={{ display: userData.username.length ? 'block' : 'none' }}>
+        <div className="user-profile__wrapper" style={{ display: userData && userData.username.length ? 'block' : 'none' }}>
             <div>
                 <img alt={userData.display_name} src={userData.display_picture} />
                 <div className="__edit-button">

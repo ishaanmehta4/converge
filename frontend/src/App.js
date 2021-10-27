@@ -16,17 +16,29 @@ import Dashboard from './pages/dashboard/Dashboard';
 const appTheme = createTheme({
   palette: {
     primary: {
-      light: '#007bff',
-      main: '#007bff',
-      dark: '#007bff',
+      light: '#0068d6',
+      main: '#0068d6',
+      dark: '#0068d6',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#007bff',
-      main: '#007bff',
-      dark: '#007bff',
+      light: '#0068d6',
+      main: '#0068d6',
+      dark: '#0068d6',
       contrastText: '#000',
     },
+    // primary: {
+    //   light: '#007bff',
+    //   main: '#007bff',
+    //   dark: '#007bff',
+    //   contrastText: '#fff',
+    // },
+    // secondary: {
+    //   light: '#007bff',
+    //   main: '#007bff',
+    //   dark: '#007bff',
+    //   contrastText: '#000',
+    // },
   },
 });
 

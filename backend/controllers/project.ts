@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { User, Project } from '../models';
-import { IRequest } from '../interfaces';
+import { User, Project, Application } from '../models';
+import { IProject, IRequest } from '../interfaces';
 
 // Single function to return an error response
 const errorResponse = (res: Response, err: any, code: number = 500) => {
@@ -83,11 +83,19 @@ export async function getUserProjects(req: Request, res: Response) {
     const userId = currentUser._id;
 
     // Get all the projects where user is an author
-    const projects = await Project.find({ author: userId });
+    const projects = await Project.find({ author: userId }).sort({createdAt: -1});
+
+    // get applications for each project
+    for(let i=0;i<projects.length;i++) {
+      projects[i] = projects[i].toObject()
+      let applications = await Application.find({project: projects[i]._id})
+      projects[i].applications = applications || []
+    }
     // Return the response with the projects data
     res.status(200).json({ status: 'success', data: projects });
   } catch (error) {
     // Return the error response
+    console.log(error)
     errorResponse(res, error);
   }
 }
@@ -101,12 +109,12 @@ export async function getUserProjects(req: Request, res: Response) {
 export async function updateProject(req: Request, res: Response) {
   try {
     // Update the project document with the given data
-    const updatedProjectData = req.body.project;
+    const updatedProjectData = req.body.updated_data;
     // Find the project document with the given project_id
-    const project = await Project.findOne({ _id: updatedProjectData._id });
+    const project = await Project.findOne({ _id: req.params.project_id });
     // If the project document is not found, return the error response
     if (!project) {
-      errorResponse(res, new Error('Project not found'));
+      errorResponse(res, new Error('Project not found'), 404);
     }
     // Update the project document with the given data
     if (updatedProjectData.title) project.title = updatedProjectData.title;

@@ -1,0 +1,26 @@
+.my-projects-wrapper {
+  padding: 16px;
+  padding-top: 20px;
+  position: relative;
+  min-height: 100%;
+  max-height: calc(100vh - 100px);
+  overflow-y: scroll;
+
+  .__heading-wrapper {
+    padding-bottom: 12px;
+  }
+  .__heading-wrapper {
+    display: grid;
+    margin-bottom: 12px;
+    grid-template-columns: 1fr max-content;
+  }
+  .__project-list-wrapper {
+    max-height: calc(100vh - 100px);
+    overflow-y: scroll;
+  }
+  .__fab-wrapper {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+}
