@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getCurrentUserData, updateUser } from '../../API/user'
+import {GlobalUserContext} from '../../App'
 // import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -15,6 +16,9 @@ import './style.scss'
 
 
 function UserProfile() {
+
+    let {globalUserData, setGlobalUserData} = React.useContext(GlobalUserContext)
+
     let [userData, setUserData] = useState({
         username: '',
         firebase_uid: '',
@@ -38,6 +42,7 @@ function UserProfile() {
         let getData = async () => {
             let response = await getCurrentUserData()
             setUserData(userData => ({ ...userData, ...response }))
+            setGlobalUserData(globalUserData => ({ ...globalUserData, ...response }))
         }
         getData()
     }, [])
@@ -72,6 +77,9 @@ function UserProfile() {
             setUserData({
                 ...userData, ...updatedData, skillString: null
             })
+            setGlobalUserData({
+                ...globalUserData, ...updatedData, skillString: null
+            })
             handleClose()
         }
         else {
@@ -98,7 +106,7 @@ function UserProfile() {
                     }
                 </Stack>
             </div>}
-            <div>
+            <div className="__contact-info-wrapper">
                 <h3>Contact information</h3>
                 <div className="__username"><i className="lni lni-user"></i> @{userData.username}</div>
                 <div className="__email"><i className="lni lni-envelope"></i> {userData.email.length > 20 ? userData.email.slice(0, 17) + '...' : userData.email}</div>

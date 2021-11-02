@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   BrowserRouter as Router,
@@ -12,6 +12,7 @@ import AppBar from './components/appBar/AppBar';
 import HomePage from './pages/home/Home';
 import CompleteSignupPage from './pages/completeSignup/CompleteSignup';
 import Dashboard from './pages/dashboard/Dashboard';
+import ProjectSearch from './pages/projectSearch/ProjectSearch';
 
 const appTheme = createTheme({
   palette: {
@@ -42,27 +43,43 @@ const appTheme = createTheme({
   },
 });
 
+export const GlobalUserContext = createContext({
+});
 
 function App() {
+  let [globalUserData, setGlobalUserData] = useState({
+    username: '',
+    firebase_uid: '',
+    display_name: '',
+    display_picture: '',
+    phone_number: '',
+    email: '',
+    skills: [],
+    fcm_device_tokens: [],
+  })
+
 
   return (
-    <ThemeProvider theme={appTheme}>
-    <Router>
-      <div className="App">
-      <div id="app-nav-container">
-        <h1><AppBar /></h1>
-        </div>
+    <GlobalUserContext.Provider value={{ globalUserData, setGlobalUserData }}>
+      <ThemeProvider theme={appTheme}>
+        <Router>
+          <div className="App">
+            <div id="app-nav-container">
+              <h1><AppBar /></h1>
+            </div>
 
-        <div id="app-page-container">
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/complete-signup" component={CompleteSignupPage} />
-            <Route exact path="/dashboard" component={Dashboard} />
-          </Switch>
-        </div>
-      </div>
-    </Router>
-    </ThemeProvider>
+            <div id="app-page-container">
+              <Switch>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/complete-signup" component={CompleteSignupPage} />
+                <Route exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/search-projects" component={ProjectSearch} />
+              </Switch>
+            </div>
+          </div>
+        </Router>
+      </ThemeProvider>
+    </GlobalUserContext.Provider>
   );
 }
 

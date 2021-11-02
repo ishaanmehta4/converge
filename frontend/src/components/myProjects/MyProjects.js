@@ -55,9 +55,25 @@ function MyProjects() {
         setAddModalOpen(false);
     };
 
+    const isValid = () => {
+        if(!modalData.title) {
+            alert('Please enter a title for the project.')
+            return false
+        }
+        
+        if((modalData.skills_required || []).length === 0) {
+            alert('Please add atleast one skill required for the project.')
+            return false
+        }
+
+        return true
+    }
+
     const handleAddFormSubmit = async () => {
         // setModalData({ ...modalData, skillString: '', tagString: '' })
         try {
+            if(!isValid()) return;
+          
             let [newProject, error] = await addProject(modalData)
             if (error) throw error
             else {
