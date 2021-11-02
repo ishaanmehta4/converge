@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { User, Project, Application } from '../models';
 import { IProject, IRequest } from '../interfaces';
+import { addProjectToIndex } from '../helpers/algolia';
 
 // Single function to return an error response
 const errorResponse = (res: Response, err: any, code: number = 500) => {
@@ -33,6 +34,8 @@ export async function addProject(req: Request, res: Response) {
     const newProject = new Project(newProjectData);
     // Save the project document
     await newProject.save();
+    // add new project's data to Algolia search index
+    await addProjectToIndex(newProject);
     // Return the response with the newly created project data
     res.status(200).json({ status: 'success', data: newProject });
   } catch (error) {
