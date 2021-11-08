@@ -2,10 +2,10 @@ import React from 'react'
 
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
+import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-// import DialogTitle from '@mui/material/DialogTitle';
+import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 
+import { addApplication } from '../../API/application';
+
 import './style.scss'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -25,6 +27,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function SearchCard({ projectData }) {
     let [appModalOpen, setAppModalOpen] = React.useState(false)
+    let [modalData, setModalData] = React.useState({
+        applied: false,
+        cover_letter: '',
+    })
+
     const handleAppModalOpen = () => {
         setAppModalOpen(true);
     };
@@ -33,12 +40,28 @@ function SearchCard({ projectData }) {
         // setModalData(BLACK_PROJECT_STATE)
         setAppModalOpen(false);
     };
+    const handleFormSubmit = async () => {
+        // setModalData(BLACK_PROJECT_STATE)
+        try {
+
+            await addApplication({
+                project: projectData.objectID,
+                cover_letter: modalData.cover_letter,
+            })
+
+            setModalData({
+                ...modalData,
+                applied: true,
+            })
+            setAppModalOpen(false);
+        } catch (error) {
+            console.log(error)
+        }
+    };
     return (
         <div className="search-card-wrapper box-shadow">
             <div className="__card-heading">
-                <h3>{projectData.title}
-
-                </h3>
+                <h3>{projectData.title}</h3>
                 {/* <div>{new Date(projectData.createdAt).toDateString()}</div> */}
             </div>
 
@@ -54,31 +77,48 @@ function SearchCard({ projectData }) {
             </div>
 
             <br />
-            <div><Button onClick={handleAppModalOpen} variant="outlined">Apply</Button></div>
+            <div>
+                {modalData.applied === false ? <Button onClick={handleAppModalOpen} variant="outlined">Apply</Button>
+                    : <Button variant="outlined" disableRipple color="success" >Already applied</Button>}
+            </div>
 
 
             {/* view applications dialog*/}
-            <Dialog open={appModalOpen} onClose={handleAppModalClose} maxWidth="s" fullScreen TransitionComponent={Transition}>
-                <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleAppModalClose}
-                            aria-label="close"
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            Apply for {projectData.title}
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+            <Dialog open={appModalOpen} onClose={handleAppModalClose} >
+
+                <DialogTitle style={{ width: '600px', minWidth: 'max-content', maxWidth: '80vw' }}>
+                    Apply for {projectData.title}
+                </DialogTitle>
+
                 <DialogContent>
                     <DialogContentText>
-                        Application form
+                        <TextField
+                            margin="dense"
+                            label="Add a cover letter (optional)"
+                            type="text"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="standard"
+                            value={modalData.title}
+                            onChange={(e) => {
+                                setModalData({
+                                    ...modalData,
+                                    cover_letter: e.target.value
+                                })
+                            }}
+                        />
+                    </DialogContentText>
+                    <br />
+                    <br />
+                    <DialogContentText>
+                        Your skillset and profile will also be shared with the recruiter.
                     </DialogContentText>
                 </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleAppModalClose}>Cancel</Button>
+                    <Button onClick={handleFormSubmit}>Submit application</Button>
+                </DialogActions>
             </Dialog>
 
 

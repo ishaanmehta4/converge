@@ -1,0 +1,25 @@
+.my-applications-wrapper {
+    padding: 16px;
+    padding-top: 20px;
+    position: relative;
+    min-height: 100%;
+    max-height: calc(100vh - 100px);
+    overflow-y: scroll;
+  
+   h3, h4 {
+      margin-bottom: 12px;
+    }
+
+    h4 {
+        font-size: 1.2em;
+        text-align: left;
+        border: 1px solid rgba(0, 0, 0, 0.6);
+        // border-color: var(--accent-dark);
+        // width: max-content;
+        padding: 6px 8px;
+        border-radius: 4px;
+        margin-top: 24px;
+        // opacity: 0.8;
+    }
+  }
+  

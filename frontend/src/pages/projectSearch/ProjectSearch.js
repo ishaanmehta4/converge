@@ -36,10 +36,10 @@ function ProjectSearch() {
             <InstantSearch indexName="projects" searchClient={searchClient}>
                 <div className="right-panel">
                     <div className="ais-SearchBox-input-wrapper">
-                        <SearchBox defaultRefinement={globalUserData.skills[0]} />
+                        <SearchBox autoFocus focusShortcuts={['/']} defaultRefinement={globalUserData.skills[0]} />
                     </div>
 
-                    <Hits hitComponent={Hit} />
+                    <Hits  hitComponent={Hit} />
                 </div>
             </InstantSearch>
         </div>

@@ -19,9 +19,11 @@ const errorResponse = (res: Response, err: any, code: number = 500) => {
  */
 export async function addApplication(req: Request, res: Response) {
   try {
-    const newApplication = new Application(req.body.new_application_data);
-    const application = await newApplication.save();
-    res.status(201).send(application);
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.user_id });
+
+    let newApplication = new Application({...req.body.new_application_data , author: currentUser._id});
+    let application = await newApplication.save();
+    res.status(201).send({status: 'success', data: application});
   } catch (error) {
     errorResponse(res, error);
   }
@@ -55,15 +57,14 @@ export async function getApplicationData(req: Request, res: Response) {
 export async function getUserApplications(req: Request, res: Response) {
   try {
     // get user id from request
-    const userId = req.params.id;
-    // get all applications created by user
+    let currentUser = await User.findOne({ firebase_uid: (req as IRequest).user.user_id });
+
     const applications = await Application.find({
-      user: userId,
-    });
+      author: currentUser._id,
+    }).populate('project').sort({ createdAt: -1 });
     res.status(200).send({
       status: 'success',
-      message: 'Applications found',
-      data: applications,
+      data: applications || [],
     });
   } catch (error) {
     errorResponse(res, error);
