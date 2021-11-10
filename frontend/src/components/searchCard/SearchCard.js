@@ -1,4 +1,5 @@
 import React from 'react'
+import { GlobalUserContext } from '../../App';
 
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -26,13 +27,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function SearchCard({ projectData }) {
+    let { globalUserData } = React.useContext(GlobalUserContext)
+
     let [appModalOpen, setAppModalOpen] = React.useState(false)
     let [modalData, setModalData] = React.useState({
         applied: false,
         cover_letter: '',
+        resume_url: ''
     })
 
     const handleAppModalOpen = () => {
+        setModalData({
+            ...modalData,
+            resume_url: globalUserData.resume_url || '',
+        })
         setAppModalOpen(true);
     };
 
@@ -47,6 +55,7 @@ function SearchCard({ projectData }) {
             await addApplication({
                 project: projectData.objectID,
                 cover_letter: modalData.cover_letter,
+                resume_url: modalData.resume_url
             })
 
             setModalData({
@@ -105,6 +114,22 @@ function SearchCard({ projectData }) {
                                 setModalData({
                                     ...modalData,
                                     cover_letter: e.target.value
+                                })
+                            }}
+                        />
+                        <br />
+                        <br />
+                        <TextField
+                            margin="dense"
+                            label="Add a link to your resume for this application"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            value={modalData.resume_url}
+                            onChange={(e) => {
+                                setModalData({
+                                    ...modalData,
+                                    resume_url: e.target.value
                                 })
                             }}
                         />

@@ -15,6 +15,10 @@ var ApplicationSchema = new mongoose.Schema(
     cover_letter: {
       type: String
     },
+    resume_url: {
+      type: String,
+      default: ''
+    },
     application_status: {
       type: String,
       enum: ['pending', 'accepted', 'rejected'],

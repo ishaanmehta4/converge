@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getCurrentUserData, updateUser } from '../../API/user'
-import {GlobalUserContext} from '../../App'
+import { GlobalUserContext } from '../../App'
 // import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +17,7 @@ import './style.scss'
 
 function UserProfile() {
 
-    let {globalUserData, setGlobalUserData} = React.useContext(GlobalUserContext)
+    let { globalUserData, setGlobalUserData } = React.useContext(GlobalUserContext)
 
     let [userData, setUserData] = useState({
         username: '',
@@ -25,6 +25,7 @@ function UserProfile() {
         display_name: '',
         display_picture: '',
         phone_number: '',
+        resume_url: '',
         email: '',
         skills: [],
         fcm_device_tokens: [],
@@ -35,7 +36,8 @@ function UserProfile() {
         display_name: '',
         phone_number: '',
         skills: [],
-        skillString: ''
+        skillString: '',
+        resume_url: '',
     })
 
     useEffect(() => {
@@ -55,7 +57,8 @@ function UserProfile() {
             display_name: userData.display_name,
             phone_number: userData.phone_number,
             skills: [...userData.skills],
-            skillString: userData.skills.join(', ')
+            skillString: userData.skills.join(', '),
+            resume_url: userData.resume_url || '',
         })
         setOpen(true);
     };
@@ -67,7 +70,8 @@ function UserProfile() {
             display_name: '',
             phone_number: '',
             skills: [],
-            skillString: ''
+            skillString: '',
+            resume_url: '',
         })
     };
 
@@ -163,6 +167,21 @@ function UserProfile() {
                                 ...updatedData,
                                 skillString: e.target.value,
                                 skills: e.target.value.split(',').map(skill => skill.trim().toLowerCase()).filter(Boolean)
+                            })
+                        }}
+                    />}
+                    {userData.user_type === 'applicant' && <TextField
+                        margin="dense"
+                        label="Skills"
+                        helperText="Enter link to your resume"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        value={updatedData.resume_url}
+                        onChange={(e) => {
+                            setUpdatedData({
+                                ...updatedData,
+                                resume_url: e.target.value,
                             })
                         }}
                     />}

@@ -12,6 +12,7 @@ function CompleteSignupPage() {
     let [formData, setFormData] = useState({
         username: '',
         phone_number: '',
+        resume_url: '',
         skills: [],
         user_type: 'applicant',
     })
@@ -99,6 +100,20 @@ function CompleteSignupPage() {
                                 setFormData({
                                     ...formData,
                                     skills: e.target.value.split(',').map(skill => skill.trim().toLowerCase()).filter(Boolean)
+                                })
+                            }} />
+                    </div>
+                }
+                <br />
+                {
+                    formData.user_type === 'applicant' && <div>
+                        <h3>Add resume</h3>
+                        <br />
+                        <TextField fullWidth id="outlined-basic" helperText="Enter a link to your resume file, it will be used as your default resume."
+                            label="Resume URL" variant="outlined" onChange={(e) => {
+                                setFormData({
+                                    ...formData,
+                                    resume_url: e.target.value.trim()
                                 })
                             }} />
                     </div>

@@ -34,6 +34,11 @@ var UserSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    resume_url: {
+      type: String,
+      default: '',
+      trim: true,
+    },
     user_type: {
       type: String,
       enum: ['applicant', 'recruiter'],
