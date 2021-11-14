@@ -1,6 +1,7 @@
 import React from 'react'
 import { getUserApplications } from '../../API/application'
 import ProjectCard from '../projectCard/ProjectCard'
+import { Link } from 'react-router-dom'
 
 import './style.scss'
 
@@ -22,8 +23,16 @@ function MyApplications() {
     }, [])
 
     return (
-        <div class="my-applications-wrapper">
-            <h3>My Applications</h3>
+        <div className="my-applications-wrapper">
+            <h2>My Applications</h2>
+            {
+                applicationList.length <= 0 &&
+                <h4>
+                    {'No applications yet. Start applying by '}
+                    <Link to="search-projects">searching for projects</Link>
+                    .
+                </h4>
+            }
             {applicationList.filter(a => a.application_status === 'pending').length > 0 &&
                 <h4>Pending applications</h4>}
             {applicationList.filter(a => a.application_status === 'pending').map((application, index) => {
@@ -46,7 +55,7 @@ function MyApplications() {
                 )
             })}
 
-            {applicationList.filter(a=>a.application_status === 'rejected').length > 0 &&
+            {applicationList.filter(a => a.application_status === 'rejected').length > 0 &&
                 <h4>Rejected applications</h4>}
             {applicationList.filter(a => a.application_status === 'rejected').map((application, index) => {
                 return (

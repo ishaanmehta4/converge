@@ -8,7 +8,7 @@ const client = algoliasearch(APP_ID, ADMIN_KEY);
 const index = client.initIndex('projects');
 
 /**
- * Adds the information about the new project to Algolia;s search index
+ * Adds the information about the new project to Algolia's search index
  * @param project MongoDB project document, with the new project data
  */
 export var addProjectToIndex = async (project: IProject) => {

@@ -91,6 +91,7 @@ function MyProjects() {
         async function fetchData() {
             try {
                 let projects = await getUserProjects()
+                // projects = [...projects, ...projects, ...projects]
                 setProjectList(projects || [])
             } catch (error) {
                 console.log('[MyProjects/fetchProjects]', error)
@@ -117,7 +118,7 @@ function MyProjects() {
                 <div className="__heading-wrapper">
                     <h2>{`My Projects`}</h2>
                 </div>
-                {projectList.map(p => <ProjectCard projectData={p} setProjectList={setProjectList} isOwner />)}
+                {projectList.map(p => <ProjectCard projectData={p} projectList={projectList} setProjectList={setProjectList} isOwner />)}
             </div>
 
             {/* Add project dialog */}

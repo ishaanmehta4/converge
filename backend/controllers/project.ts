@@ -86,19 +86,19 @@ export async function getUserProjects(req: Request, res: Response) {
     const userId = currentUser._id;
 
     // Get all the projects where user is an author
-    const projects = await Project.find({ author: userId }).sort({createdAt: -1});
+    const projects = await Project.find({ author: userId }).sort({ createdAt: -1 });
 
     // get applications for each project
-    for(let i=0;i<projects.length;i++) {
-      projects[i] = projects[i].toObject()
-      let applications = await Application.find({project: projects[i]._id})
-      projects[i].applications = applications || []
+    for (let i = 0; i < projects.length; i++) {
+      projects[i] = projects[i].toObject();
+      let applications = await Application.find({ project: projects[i]._id }).sort({ createdAt: -1 }).populate('author');
+      projects[i].applications = applications || [];
     }
     // Return the response with the projects data
     res.status(200).json({ status: 'success', data: projects });
   } catch (error) {
     // Return the error response
-    console.log(error)
+    console.log(error);
     errorResponse(res, error);
   }
 }

@@ -12,8 +12,10 @@ function Dashboard() {
             {/* left panel */}
             <div>
             {
-                (globalUserData.user_type && globalUserData.user_type === 'applicant') ?
-                    <MyApplications /> : <MyProjects />
+                (globalUserData.user_type && globalUserData.user_type === 'recruiter')  && <MyProjects />
+            }
+            {
+                (globalUserData.user_type && globalUserData.user_type === 'applicant')  && <MyApplications />
             }
             </div>
             {/* right panel */}

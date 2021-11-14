@@ -80,21 +80,8 @@ export async function getUserApplications(req: Request, res: Response) {
 export async function getProjectApplications(req: Request, res: Response) {
   try {
     // Get all the applications for the project
-    const applications = await Application.find({ project_id: req.params.project_id });
-    // If there are no applications, return an empty array
-    if (applications.length === 0) {
-      res.status(200).send({
-        status: 'success',
-        message: 'No applications found for this project',
-        data: [],
-      });
-    } else {
-      res.status(200).send({
-        status: 'success',
-        message: 'Applications found',
-        data: applications,
-      });
-    }
+    const applications = await Application.find({ project_id: req.params.project_id }).populate('author');
+    res.json({ status: 'success', data: applications || [] });
   } catch (error) {
     errorResponse(res, error);
   }
@@ -140,14 +127,14 @@ export async function updateApplication(req: Request, res: Response) {
 export async function updateApplicationStatus(req: Request, res: Response) {
   try {
     // Get the application document
-    const application = await Application.findById(req.params.application_id);
+    let application = await Application.findById(req.params.application_id);
     if (!application) {
       errorResponse(res, new Error('Application not found'), 404);
     }
-    const application_status = req.body.updated_status;
+    let application_status = req.body.updated_status;
     // Update the application document
-    application.status = application_status;
-    const updatedApplication = await application.save();
+    application.application_status = application_status;
+    let updatedApplication = await application.save();
     res.status(200).send({
       status: 'success',
       message: 'Application status updated',
