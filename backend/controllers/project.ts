@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { User, Project, Application } from '../models';
 import { IProject, IRequest } from '../interfaces';
 import { addProjectToIndex } from '../helpers/algolia';
+import { sendEmail } from '../helpers/sendgrid';
 
 // Single function to return an error response
 const errorResponse = (res: Response, err: any, code: number = 500) => {
@@ -36,6 +37,15 @@ export async function addProject(req: Request, res: Response) {
     await newProject.save();
     // add new project's data to Algolia search index
     await addProjectToIndex(newProject);
+    // send email to user
+    if(currentUser.email) {
+      sendEmail({
+        to: currentUser.email,
+        subject: `New project "${newProject.title}" listed | Converge`,
+        text: `Hey ${currentUser.display_name}, your new project "${newProject.title}" is now saved and will start appearing in relevant search results. You can go to the Converge dashboard to manage this project's applications.\nThanks, \nTeam Converge`,
+        html: `<p>Hey ${currentUser.display_name},</p><p>Your new project "${newProject.title}" is now saved and will start appearing in relevant search results.</p><p>You can go to the <a href="${process.env.WEB_URL || 'https://localhost:3000'}">Converge dashboard</a> to manage this project's applications.</p><p>Thanks, <br>Team Converge</p>`,
+      });
+    }
     // Return the response with the newly created project data
     res.status(200).json({ status: 'success', data: newProject });
   } catch (error) {

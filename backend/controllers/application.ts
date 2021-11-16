@@ -25,16 +25,25 @@ export async function addApplication(req: Request, res: Response) {
     let newApplication = new Application({ ...req.body.new_application_data, author: currentUser._id });
     let application = await newApplication.save();
 
-    // Send email notification to author
+    // Send email notification to project author and current user
     let project = await Project.findById(application.project);
     if (project) {
       let projectAuthor = await User.findById(project.author);
       if (projectAuthor && projectAuthor.email) {
-        await sendEmail({
+        sendEmail({
           to: projectAuthor.email,
           subject: `New application recieved for "${project.title}" | Converge`,
           text: `Hey ${projectAuthor.display_name}, a new application has been recieved for your project "${project.title}". Go to the Converge dashboard to contact the applicant and manage this application.\nThanks, \nTeam Converge`,
           html: `<p>Hey ${projectAuthor.display_name},</p><p>A new application has been recieved for your project "${project.title}".</p><p> Go to the <a href="${process.env.WEB_URL || 'https://localhost:3000'}">Converge dashboard</a> to contact the applicant and manage this application.</p><p>Thanks, <br>Team Converge</p>`,
+        });
+      }
+
+      if (currentUser.email) {
+        sendEmail({
+          to: currentUser.email,
+          subject: `Application sent for "${project.title}" | Converge`,
+          text: `Hey ${currentUser.display_name}, thanks for applying to the project "${project.title}". You will receive email notification once the recruiter updates the status of your application. All the best!\nThanks, \nTeam Converge`,
+          html: `<p>Hey ${currentUser.display_name},</p><p>Thanks for applying to the project "${project.title}"</p><p>You will receive email notification once the recruiter updates the status of your application. All the best!</p><p>Thanks, <br>Team Converge</p>`,
         });
       }
     }
@@ -152,15 +161,15 @@ export async function updateApplicationStatus(req: Request, res: Response) {
     // Update the application document
     application.application_status = application_status;
     let updatedApplication = await application.save();
-    
+
     // Send email notification to applicant
     let applicant = await User.findById(updatedApplication.author);
     if (applicant && applicant.email) {
-      await sendEmail({
+      sendEmail({
         to: applicant.email,
         subject: `Application status updated for "${application.project.title}" | Converge`,
         text: `Hey ${applicant.display_name}, your application for "${application.project.title}" has been ${application_status}.\nThanks, \nTeam Converge`,
-        html: `<p>Hey ${applicant.display_name},</p><p>Your application for "${application.project.title}" has been <b>${application_status}</b>. ${application_status === 'accepted' ? 'You should expect communication from the recruiter via email/phone soon. <br> All the best!': `But don\'t worry, you can apply to more projects that suit your skills :) <br> Just head over to the <a href="${process.env.WEB_URL || 'https://localhost:3000'}">Converge dashboard</a>.`}</p><p>Thanks, <br>Team Converge</p>`,
+        html: `<p>Hey ${applicant.display_name},</p><p>Your application for "${application.project.title}" has been <b>${application_status}</b>. ${application_status === 'accepted' ? 'You should expect communication from the recruiter via email/phone soon. <br> All the best!' : `But don\'t worry, you can apply to more projects that suit your skills :) <br> Just head over to the <a href="${process.env.WEB_URL || 'https://localhost:3000'}">Converge dashboard</a>.`}</p><p>Thanks, <br>Team Converge</p>`,
       });
     }
 
