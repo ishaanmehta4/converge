@@ -1,9 +1,15 @@
 .dashboard__grid {
-    display: grid; 
-    grid-template-columns:  1fr 250px;
-    grid-template-rows: 100%;
-    height: 100%;
-    // & > div:first-child {
-    //     // max-height: calc(100vh - 100px);
-    // }
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-template-rows: 100%;
+  height: 100%;
+  // & > div:first-child {
+  //     // max-height: calc(100vh - 100px);
+  // }
+}
+
+@media screen and (max-width: 740px) {
+  .dashboard__grid {
+    grid-template-columns: 1fr;
+  }
 }

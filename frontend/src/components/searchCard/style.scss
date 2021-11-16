@@ -1,44 +1,45 @@
 .search-card-wrapper {
-    border: solid 0.4px rgba(0,0,0,0.1);
-    margin: 16px;
-    padding: 30px 20px;
-    border-radius: 8px;
-    // width: 100%;
-    // padding-left: 0;
+  border: solid 0.4px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  padding: 30px 20px;
+  border-radius: 8px;
+  // width: 100%;
+  // padding-left: 0;
 
-    .__card-heading {
-        display: grid;
-        grid-template-columns:  1fr max-content;
+  .__card-heading {
+    display: grid;
+    grid-template-columns: 1fr max-content;
 
-        .__edit-button {
-            position: relative;
-            top: -2px;
-            margin-left: 8px;
-        }
+    .__edit-button {
+      position: relative;
+      top: -2px;
+      margin-left: 8px;
     }
+  }
 
-    .__appliation-section {
-        margin-top: 16px;
-        div {
-            display: inline-block;
-            // display: none;
-            margin-right: 16px;
+  .__appliation-section {
+    margin-top: 16px;
+    div {
+      display: inline-block;
+      // display: none;
+      margin-right: 16px;
 
-            &:first-child {
-                position: relative;
-                // top: 2px;
-                font-size: 1em;
-            }
-        }
+      &:first-child {
+        position: relative;
+        // top: 2px;
+        font-size: 1em;
+      }
     }
+  }
 
-    .__tags-section {
-        margin-top: 12px;
-    }
+  .__tags-section {
+    margin-top: 12px;
+    overflow-x: auto;
+  }
 
-    .__description-section {
-        margin-top: 12px;
-        // font-size: 0.9em;
-        // opacity: 0.8;
-    }
+  .__description-section {
+    margin-top: 12px;
+    // font-size: 0.9em;
+    // opacity: 0.8;
+  }
 }
