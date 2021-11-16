@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Slide from '@mui/material/Slide';
+import CheckIcon from '@mui/icons-material/Check';
+
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -27,7 +29,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function SearchCard({ projectData }) {
-    let { globalUserData } = React.useContext(GlobalUserContext)
+    let { globalUserData, setGlobalUserData } = React.useContext(GlobalUserContext)
 
     let [appModalOpen, setAppModalOpen] = React.useState(false)
     let [modalData, setModalData] = React.useState({
@@ -58,9 +60,10 @@ function SearchCard({ projectData }) {
                 resume_url: modalData.resume_url
             })
 
-            setModalData({
-                ...modalData,
-                applied: true,
+            let updatedProjectList = [...globalUserData.projects_applied_to, projectData.objectID]
+            setGlobalUserData({
+                ...globalUserData, 
+                projects_applied_to: updatedProjectList
             })
             setAppModalOpen(false);
         } catch (error) {
@@ -71,7 +74,6 @@ function SearchCard({ projectData }) {
         <div className="search-card-wrapper box-shadow">
             <div className="__card-heading">
                 <h3>{projectData.title}</h3>
-                {/* <div>{new Date(projectData.createdAt).toDateString()}</div> */}
             </div>
 
             <Stack className="__tags-section" direction="row" spacing={1}>
@@ -87,8 +89,8 @@ function SearchCard({ projectData }) {
 
             <br />
             <div>
-                {modalData.applied === false ? <Button onClick={handleAppModalOpen} variant="outlined">Apply</Button>
-                    : <Button variant="outlined" disableRipple color="success" >Already applied</Button>}
+                {globalUserData.projects_applied_to.includes(projectData.objectID) === false ? <Button onClick={handleAppModalOpen} variant="outlined">Apply</Button>
+                    : <Button variant="outlined" disableRipple color="success" startIcon={<CheckIcon/>}>Already applied</Button>}
             </div>
 
 

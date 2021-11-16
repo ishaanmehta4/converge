@@ -2,11 +2,15 @@ import React from 'react'
 import { getUserApplications } from '../../API/application'
 import ProjectCard from '../projectCard/ProjectCard'
 import { Link } from 'react-router-dom'
+import { GlobalUserContext } from '../../App'
+
 
 import './style.scss'
 
 function MyApplications() {
     let [applicationList, setApplicationList] = React.useState([])
+    let { globalUserData ,setGlobalUserData } = React.useContext(GlobalUserContext)
+
 
     React.useEffect(() => {
         async function fetchData() {
@@ -14,6 +18,10 @@ function MyApplications() {
                 let applications = await getUserApplications()
                 // applications = [...applications, ...applications, ...applications, ...applications, ...applications]
                 setApplicationList(applications || [])
+                setGlobalUserData({
+                    ...globalUserData,
+                    projects_applied_to: applications.map(app=>app.project._id || '') || []
+                })
             } catch (error) {
                 console.log('[MyApplications/fetchApplications]', error)
                 // alert('Applications could not be fetched because an error was encountered.')

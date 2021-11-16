@@ -1,8 +1,11 @@
 import React from 'react'
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import LogoutIcon from '@mui/icons-material/Logout';
 import Button from '@mui/material/Button';
+
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
 
 import './style.scss'
 
@@ -26,7 +29,7 @@ function ApplicationCard({ applicationData, setStatus }) {
             }
             {
                 applicationData.resume_url && <a href={applicationData.resume_url} target="_blank">
-                    <Button className="__resume-button" fullWidth variant="outlined" endIcon={<LogoutIcon />}> Open resume</Button>
+                    <Button className="__resume-button" fullWidth variant="outlined" startIcon={<InsertDriveFileOutlinedIcon />}> Open resume</Button>
                 </a>
             }
             <h4>Contact information</h4>
@@ -38,8 +41,8 @@ function ApplicationCard({ applicationData, setStatus }) {
             </div>
             { applicationData.application_status === 'pending' &&
             <div className="__buttons-section">
-                <Button variant="text" color="error" startIcon={<LogoutIcon />} onClick={()=>{setStatus(applicationData._id, 'rejected')}}>Reject application</Button>
-                <Button variant="contained" color="primary" startIcon={<LogoutIcon />} onClick={()=>{setStatus(applicationData._id, 'accepted')}}>Accept application</Button>
+                <Button variant="outlined" color="error" startIcon={<ClearIcon />} onClick={()=>{setStatus(applicationData._id, 'rejected')}}>Reject application</Button>
+                <Button variant="contained" color="primary" startIcon={<CheckIcon />} onClick={()=>{setStatus(applicationData._id, 'accepted')}}>Accept application</Button>
             </div>}
         </div>
     )
