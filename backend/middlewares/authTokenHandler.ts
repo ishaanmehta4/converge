@@ -10,7 +10,17 @@ const authTokenHandler = async function (req: Request, res: Response, next: Next
 
     if (!token) return res.status(401).json({ status: 'error', error: 'Token missing.' });
 
-    let decodedToken = await auth.verifyIdToken(token);
+    let decodedToken = {};
+    if (process.env.NODE_ENV === 'test') {
+      decodedToken = {
+        uid: 'test-uid',
+        user_id: 'test-uid',
+        email: 'test-email@gmail.com',
+        email_verified: true,
+        name: 'test-name',
+      }
+    } else decodedToken = await auth.verifyIdToken(token);
+
     (<IRequest>req).user = decodedToken;
 
     next();
