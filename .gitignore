@@ -104,3 +104,6 @@ dist
 .tern-port
 Converge_WS.code-workspace
 frontend/homepage/
+
+# CJS output of typescript-compile
+backend/build-ts
