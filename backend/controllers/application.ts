@@ -47,7 +47,7 @@ export async function addApplication(req: Request, res: Response) {
         });
       }
     }
-    res.status(201).send({ status: 'success', data: application });
+    res.status(200).send({ status: 'success', data: application });
   } catch (error) {
     errorResponse(res, error);
   }

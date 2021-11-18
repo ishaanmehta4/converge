@@ -12,7 +12,7 @@ const path = require('path');
 
 // ---------- Middlewares ----------
 app.use(cors());
-app.use(morgan('dev'));
+process.env.NODE_ENV !== 'test' && app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 //---------- Initialising services ----------

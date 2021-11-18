@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive --exit",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "tsc": "tsc",
+    "build": "tsc && npm run test"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.6.0",
