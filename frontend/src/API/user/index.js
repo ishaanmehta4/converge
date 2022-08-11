@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export var addUser = async (new_user_data) => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     if (!token || token == null || token === 'null') {return}
     try {
         let response = await axios.post('/api/users/create', {
@@ -22,7 +22,7 @@ export var addUser = async (new_user_data) => {
 }
 
 export var getCurrentUserData = async () => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
 // console.log({token})
     if (!token || token == null || token === 'null') {return}
     try {
@@ -52,7 +52,7 @@ export var getUserData = async () => {
 }
 
 export var updateUser = async (updated_data) => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     if (!token || token == null || token === 'null') {return}
     if(updated_data.skillString) updated_data.skillString = null
     // console.log({updated_data})

@@ -84,7 +84,7 @@ function ProjectCard({ projectData, projectList, setProjectList, isOwner }) {
             <div className="__description-section">{projectData.description}</div>
             <div className="__skills-section">
                 <strong>Skills required: </strong>
-                {projectData.skills_required.join(', ')}
+                {(projectData.skills_required || []).join(', ')}
             </div>
 
             {/* view applications dialog*/}

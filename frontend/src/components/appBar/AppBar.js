@@ -9,7 +9,7 @@ import { GlobalUserContext } from '../../App'
 import './style.scss'
 
 function logOutUser() {
-    localStorage.removeItem('token')
+    localStorage.removeItem('idToken')
     window.location.href = '/'
 }
 

@@ -8,7 +8,7 @@ sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 export async function sendEmail(emailContent: { to?: string; from?: string; subject?: string; text?: string; html?: string }) {
   if (process.env.NODE_ENV === 'test') return;
   let body = {
-    from: 'ishaanmehta4@gmail.com',
+    from: 'ishaanmehta4+converge@gmail.com',
     subject: 'Converge',
   };
 

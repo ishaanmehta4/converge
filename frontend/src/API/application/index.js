@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export var addApplication = async (new_application_data) => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     if (!token || token == null || token === 'null') { return {} }
     try {
         let response = await axios.post('/api/applications/create', {
@@ -25,7 +25,7 @@ export var addApplication = async (new_application_data) => {
 }
 
 export var getUserApplications = async () => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     // console.log({token})
     if (!token || token == null || token === 'null') { return [] }
     try {
@@ -51,7 +51,7 @@ export var getApplicationData = async () => {
 }
 
 export var updateApplication = async (applicationId, updated_data) => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     if (!token || token == null || token === 'null') { return {} }
     if (updated_data.skillString) updated_data.skillString = null
     // console.log({updated_data})
@@ -76,7 +76,7 @@ export var updateApplication = async (applicationId, updated_data) => {
 }
 
 export var updateApplicationStatus = async (application_id, updated_status) => {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('idToken');
     if (!token || token == null || token === 'null') { return [false, 'Not logged in.'] }
     try {
         let response = await axios.put(`/api/applications/doc/${application_id}/status`, {

@@ -13,13 +13,6 @@ import Stack from '@mui/material/Stack';
 import Slide from '@mui/material/Slide';
 import CheckIcon from '@mui/icons-material/Check';
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-
 import { addApplication } from '../../API/application';
 
 import './style.scss'
@@ -89,7 +82,7 @@ function SearchCard({ projectData }) {
 
             <br />
             <div>
-                {globalUserData.projects_applied_to.includes(projectData.objectID) === false ? <Button onClick={handleAppModalOpen} variant="outlined">Apply</Button>
+                {(globalUserData.projects_applied_to || []).includes(projectData.objectID) === false ? <Button onClick={handleAppModalOpen} variant="outlined">Apply</Button>
                     : <Button variant="outlined" disableRipple color="success" startIcon={<CheckIcon/>}>Already applied</Button>}
             </div>
 

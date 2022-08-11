@@ -19,6 +19,7 @@ async function connectToDB() {
 async function connectToDBTest() {
   try {
     const mockgoose = new Mockgoose(mongoose);
+    mockgoose.helper.setDbVersion('3.2.1');
     await mockgoose.prepareStorage();
 
     await mongoose.connect(mongo_url, {

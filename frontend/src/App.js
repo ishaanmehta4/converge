@@ -71,6 +71,7 @@ function App() {
             <div id="app-page-container">
               <Switch>
                 <Route exact path="/" component={HomePage} />
+                <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/complete-signup" component={CompleteSignupPage} />
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/search-projects" component={ProjectSearch} />

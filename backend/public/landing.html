@@ -361,9 +361,9 @@
           // The signed-in user info.
           const user = result.user;
           user.getIdToken(true).then((token) => {
-            console.log({ token })
-            // localStorage.setItem('idToken', token);
-            window.location = "http://localhost:3000/?t="+token+""
+            // console.log({ token })
+            localStorage.setItem('idToken', token);
+            window.location = "/"
           }).catch(function (error) {
             // Handle error
             console.log('[HOMEPAGE]: Error occured while getting user\'s ID token.')

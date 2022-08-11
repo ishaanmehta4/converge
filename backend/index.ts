@@ -30,11 +30,16 @@ app.use('/api/projects', projectRouter);
 app.use('/api/applications', applicationRouter);
 
 // ---------- Routes for serving frontend files ----------
-app.use(express.static('static'));
+app.use(express.static('public'));
 
-app.get('/app', (req: Request, res: Response) => {
-  res.send('REACT HOME');
+app.get('/landing', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
 });
+
+app.get('/*', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 connectToDB()
   .then(() => {
