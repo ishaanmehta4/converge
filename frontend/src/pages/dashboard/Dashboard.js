@@ -9,7 +9,7 @@ function Dashboard() {
     let token = localStorage.getItem('idToken');
   
     // if not token, redirect to static home.
-    const HOME_PAGE_URL = (process.env.WEB_URL || 'http://localhost:5000') + '/landing'
+    const HOME_PAGE_URL = (process.env.WEB_URL || `http://${window.location.hostname}:${window.location.port}`) + '/landing'
     if(!token) window.location = HOME_PAGE_URL
     
     let { globalUserData } = React.useContext(GlobalUserContext)
