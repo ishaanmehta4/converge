@@ -1,0 +1,32 @@
+FROM node:16
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# env variables
+ENV MONGO_URL=xyz
+ENV ALGOLIA_APP_ID=xyz
+ENV ALGOLIA_ADMIN_KEY=xyz
+ENV SENDGRID_API_KEY=xyz
+
+# Bundle app source
+COPY . .
+
+EXPOSE 5000
+
+# build JS source from TypeScript code
+RUN npm run build
+
+# move frontend file into the build folder
+RUN cp -R public build-ts
+
+CMD [ "node", "build-ts/index.js" ]
